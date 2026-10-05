@@ -27,6 +27,7 @@ jobs:
     runs-on: blacksmith-4vcpu-ubuntu-2404
     outputs:
       app: ${{ steps.packages.outputs.app }}
+      cli: ${{ steps.packages.outputs.cli }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
@@ -47,10 +48,13 @@ jobs:
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             echo "app=true" >> "$GITHUB_OUTPUT"
+            echo "cli=true" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           bun x turbo@2.10.2 ls --affected --filter=@opencode/app --output=json > affected.json
           bun -e 'const result = await Bun.file("affected.json").json(); console.log(`app=${result.packages.count > 0}`)' >> "$GITHUB_OUTPUT"
+          bun x turbo@2.10.2 ls --affected --filter=@opencode/cli --output=json > affected-cli.json
+          bun -e 'const result = await Bun.file("affected-cli.json").json(); console.log(`cli=${result.packages.count > 0}`)' >> "$GITHUB_OUTPUT"
 
   unit:
     name: unit (${{ matrix.settings.name }})
@@ -170,6 +174,29 @@ jobs:
         if: runner.os == 'Linux'
         working-directory: services/www
         run: bun run check:generated
+
+  service-lifecycle:
+    name: service lifecycle (linux)
+    needs: affected
+    runs-on: blacksmith-4vcpu-ubuntu-2404
+    env:
+      SERVICE_LIFECYCLE_ENABLED: ${{ needs.affected.outputs.cli == 'true' }}
+    steps:
+      - name: Checkout repository
+        if: env.SERVICE_LIFECYCLE_ENABLED == 'true'
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Bun
+        if: env.SERVICE_LIFECYCLE_ENABLED == 'true'
+        uses: ./.github/actions/setup-bun
+
+      - name: Run service lifecycle tests
+        if: env.SERVICE_LIFECYCLE_ENABLED == 'true'
+        timeout-minutes: 15
+        working-directory: packages/cli
+        run: bun run test:service-lifecycle
 
   e2e:
     name: e2e (${{ matrix.settings.name }})
