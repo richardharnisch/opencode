@@ -1,7 +1,7 @@
 # Terminal cursor behind toast notifications
 
 - Issue: https://github.com/anomalyco/opencode/issues/60215
-- Fix: https://github.com/richardharnisch/opencode/commit/9bf846142a
+- Fix: https://github.com/richardharnisch/opencode/commit/2373c5bed8
 - PR branch: `richardharnisch:toast-cursor`, based on OpenCode `dev` at `726cf096396d5014c3b1845e231cc01efe0421ee`.
 
 This branch contains review evidence only. The proposed source change is limited to `packages/tui/src/ui/toast.tsx` and its existing test file.
@@ -48,14 +48,14 @@ Linux x86_64, Bun 1.4.4, dependencies from the frozen lockfile.
 | --- | --- |
 | `bun run check` from the repository root | Pass, with repository warnings; zero lint/type errors |
 | `bun run typecheck:tsc` from `packages/tui` | Pass |
-| `bun test --timeout 30000 test/cli/tui/toast.test.tsx --rerun-each 10` | 50 pass, 0 fail |
-| Regression negative control, without the fix | 3 fail, 2 pass |
+| `bun test --timeout 30000 test/cli/tui/toast.test.tsx --rerun-each 10` | 40 pass, 0 fail |
+| Regression negative control, without the fix | 2 fail, 2 pass |
 | Prettier on both changed files and `git diff --check` | Pass |
-| Full TUI suite, fixed branch | 1566 pass, 2 skip, 1 fail |
+| Full TUI suite, fixed branch | 1565 pass, 2 skip, 1 fail |
 | Full TUI suite, unchanged base | 1563 pass, 2 skip, 1 fail |
 
 Both full-suite runs fail the same existing assertion in `test/component/go-upsell-art.test.tsx`: the art is `▀▀▀▀ ▀▀▀▀`, while the test expects `█▀▀▀ █▀▀█`. The fix does not change that component. An earlier command-limited full-suite attempt timed out and reported a shell-output failure; all 18 shell-output checks passed in three repeat runs on each branch.
 
-The three added regression cases cover the core behavior at narrow and wide widths, plus one boundary check. They check hiding and restoration, border coordinates, moving into/out of coverage, clean frames, focus and keyboard input, dismissal, and preservation of cursor properties. Optional standalone resizing and application-hidden-cursor tests were removed to keep the proposed diff focused.
+One parameterized regression runs at widths 44 and 100. It checks that an uncovered cursor stays visible, a covered cursor stays hidden across another frame, focus stays on the terminal, and dismissal restores the cursor. The test diff is 51 added lines, including imports and setup, and two replaced import lines; the fix is eight added lines.
 
 Live TUI checks also covered notification expiry, resizing to 88 columns, and shell input after copying. The reporter separately confirmed the fix in their local terminal and supplied the primary screenshots above. macOS, Windows, and additional terminal emulators were not tested locally. Upstream PR CI has not run because the PR has not been opened.
