@@ -21,6 +21,7 @@ Check the toast's current bounds after painting and suppress only a visible, cov
 - `bun run check`, TUI `typecheck:tsc`, and formatting checks pass.
 - Full TUI suite: 1569 pass, 2 skip, 1 fail. Unchanged `dev` has the same `go-upsell-art.test.tsx` failure (1563 pass, 2 skip, 1 fail).
 - Real TUI: `/terminal`, mouse copy, expiry/restoration, resizing, and shell input in an isolated synthetic-data sandbox.
+- Manually confirmed locally; before/after screenshots below.
 
 ### Visual
 
@@ -46,11 +47,11 @@ Check the toast's current bounds after painting and suppress only a visible, cov
 
 ### Screenshots / recordings
 
-Before (2.2.1) and after (this branch), captured from the full TUI:
+Local before/after screenshots, cropped to the notification to exclude personal information:
 
-![Before: cursor drawn over the toast](https://raw.githubusercontent.com/richardharnisch/opencode/toast-cursor-evidence/before-detail.png)
+![Before: cursor drawn over the toast](https://raw.githubusercontent.com/richardharnisch/opencode/toast-cursor-evidence/local-before.png)
 
-![After: toast covers the cursor](https://raw.githubusercontent.com/richardharnisch/opencode/toast-cursor-evidence/after-detail.png)
+![After: toast covers the cursor](https://raw.githubusercontent.com/richardharnisch/opencode/toast-cursor-evidence/local-after.png)
 
 [Full screenshots, reproduction steps, and verification details](https://github.com/richardharnisch/opencode/tree/toast-cursor-evidence)
 

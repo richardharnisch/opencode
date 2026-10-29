@@ -8,21 +8,25 @@ This branch contains review evidence only. The proposed source change is limited
 
 ## Before and after
 
-These are captures of the real OpenCode TUI, including `/terminal` and mouse-driven copy-on-selection, through Terminal Control 1.2.1. The baseline is the installed OpenCode 2.2.1 release. The fixed client is the source branch above. Both use OpenTUI 0.7.0.
+The reporter manually tested the fix and supplied two local screenshots taken on 2026-10-29: 15:04:56 (before) and 15:07:05 (after). These are the primary images used in the prepared PR description.
 
-The terminal cursor is at the same cell: visible above the notification before the fix, hidden while covered after the fix. The detail images are crops of the full screenshots, with no changes to their content.
+The white terminal cursor is visible over the notification before the fix and hidden afterward. The images below are crops of the notification area only, with no changes to their content. The original screenshots were not changed or published; the crops exclude the username, computer name, and paths.
 
 ### Before
 
-![Cursor visible over the notification](before-detail.png)
+![Cursor visible over the notification](local-before.png)
 
 ### After
 
-![Notification covers the cursor](after-detail.png)
+![Notification covers the cursor](local-after.png)
 
-Full screenshots: [before](before.png), [after](after.png), [after expiry, with the cursor restored](restored.png), and [88-column layout](after-narrow.png).
+## Additional verification captures
 
-The capture used a dedicated synthetic database, isolated HOME/XDG directories, no external plugins, and no model requests. No live session data or credentials were used.
+The earlier captures used the real OpenCode TUI, including `/terminal` and mouse-driven copy-on-selection, through Terminal Control 1.2.1. The baseline is the installed OpenCode 2.2.1 release. The fixed client is the source branch above. Both use OpenTUI 0.7.0. In these captures, the terminal cursor is at the same cell before and after the fix.
+
+Additional screenshots: [before detail](before-detail.png), [after detail](after-detail.png), [full before](before.png), [full after](after.png), [after expiry, with the cursor restored](restored.png), and [88-column layout](after-narrow.png).
+
+These additional captures used a dedicated synthetic database, isolated HOME/XDG directories, no external plugins, and no model requests. No live session data or credentials were used in that verification.
 
 ## Reproduce
 
@@ -54,4 +58,4 @@ Both full-suite runs fail the same existing assertion in `test/component/go-upse
 
 The six added regression cases exercise narrow/wide layouts, border coordinates, moving into/out of coverage, clean frames, focus and keyboard input, dismissal, resizing, preservation of cursor properties, and application-hidden cursors.
 
-Live TUI checks also covered notification expiry, resizing to 88 columns, and shell input after copying. macOS, Windows, and additional terminal emulators were not tested locally. Upstream PR CI has not run because the PR has not been opened.
+Live TUI checks also covered notification expiry, resizing to 88 columns, and shell input after copying. The reporter separately confirmed the fix in their local terminal and supplied the primary screenshots above. macOS, Windows, and additional terminal emulators were not tested locally. Upstream PR CI has not run because the PR has not been opened.
