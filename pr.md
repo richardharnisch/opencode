@@ -49,9 +49,9 @@ Check the toast's current bounds after painting and suppress only a visible, cov
 
 Local before/after screenshots, cropped to the notification to exclude personal information:
 
-![Before: cursor drawn over the toast](https://raw.githubusercontent.com/richardharnisch/opencode/toast-cursor-evidence/local-before.png)
+![Before: cursor drawn over the toast](https://raw.githubusercontent.com/richardharnisch/opencode/de9342be2772bdcdcc031d89244423f47dee3144/local-before.png)
 
-![After: toast covers the cursor](https://raw.githubusercontent.com/richardharnisch/opencode/toast-cursor-evidence/local-after.png)
+![After: toast covers the cursor](https://raw.githubusercontent.com/richardharnisch/opencode/de9342be2772bdcdcc031d89244423f47dee3144/local-after.png)
 
 [Full screenshots, reproduction steps, and verification details](https://github.com/richardharnisch/opencode/tree/toast-cursor-evidence)
 
