@@ -19,7 +19,7 @@ Check the toast's current bounds after painting and suppress only a visible, cov
 
 - Toast tests: 40 passes across 10 repeat runs. One parameterized regression at widths 44 and 100; both cases fail without the fix.
 - `bun run check`, TUI `typecheck:tsc`, and formatting checks pass.
-- Full TUI suite: 1565 pass, 2 skip, 1 fail. The unchanged base has the same `go-upsell-art.test.tsx` failure (1563 pass, 2 skip, 1 fail).
+- Full TUI suite after merging upstream `dev`: 1565 pass, 2 skip, 1 fail. The same `go-upsell-art.test.tsx` assertion also fails on current upstream `dev` without the fix.
 - Real TUI: `/terminal`, mouse copy, expiry/restoration, resizing, and shell input in an isolated synthetic-data sandbox.
 - Manually confirmed locally; before/after screenshots below.
 
@@ -47,11 +47,13 @@ Check the toast's current bounds after painting and suppress only a visible, cov
 
 ### Screenshots / recordings
 
-Local before/after screenshots, cropped to the notification to exclude personal information:
+Local before/after screenshots. Notification details:
 
 ![Before: cursor drawn over the toast](https://raw.githubusercontent.com/richardharnisch/opencode/de9342be2772bdcdcc031d89244423f47dee3144/local-before.png)
 
 ![After: toast covers the cursor](https://raw.githubusercontent.com/richardharnisch/opencode/de9342be2772bdcdcc031d89244423f47dee3144/local-after.png)
+
+![Full view: before and after](https://raw.githubusercontent.com/richardharnisch/opencode/9385326d6c3b8bcb7aff26ded4dbc58bdb2cabdf/full-comparison.png)
 
 [Full screenshots, reproduction steps, and verification details](https://github.com/richardharnisch/opencode/tree/toast-cursor-evidence)
 
