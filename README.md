@@ -1,8 +1,8 @@
 # Terminal cursor behind toast notifications
 
 - Issue: https://github.com/anomalyco/opencode/issues/60215
-- Fix: https://github.com/richardharnisch/opencode/commit/2373c5bed8
-- PR branch: `richardharnisch:toast-cursor`, based on OpenCode `dev` at `726cf096396d5014c3b1845e231cc01efe0421ee`.
+- Fix: https://github.com/richardharnisch/opencode/commit/143d4483fd
+- PR branch: `richardharnisch:toast-cursor`, merged with upstream `dev` at `589c62db60a4ae25e845e440eef64dd007101dc9`.
 
 This branch contains review evidence only. The proposed source change is limited to `packages/tui/src/ui/toast.tsx` and its existing test file.
 
@@ -10,7 +10,7 @@ This branch contains review evidence only. The proposed source change is limited
 
 The reporter manually tested the fix and supplied two local screenshots taken on 2026-10-29: 15:04:56 (before) and 15:07:05 (after). These are the primary images used in the prepared PR description.
 
-The white terminal cursor is visible over the notification before the fix and hidden afterward. The images below are crops of the notification area only, with no changes to their content. The original screenshots were not changed or published; the crops exclude the username, computer name, and paths.
+The white terminal cursor is visible over the notification before the fix and hidden afterward. The first two images below are unchanged crops of the notification area. The full comparison preserves both complete screenshots at their original resolution, without redaction or changes to their pixels. Only the Before/After labels were added outside the screenshots. The original files remain unchanged.
 
 ### Before
 
@@ -19,6 +19,10 @@ The white terminal cursor is visible over the notification before the fix and hi
 ### After
 
 ![Notification covers the cursor](local-after.png)
+
+### Full comparison
+
+![Full screenshots: before, with the cursor over the toast; after, with the toast covering the cursor](full-comparison.png)
 
 ## Additional verification captures
 
@@ -42,7 +46,7 @@ The fix hides only a cursor whose cell is within the toast's current bounds. It 
 
 ## Verification
 
-Linux x86_64, Bun 1.4.4, dependencies from the frozen lockfile.
+Linux x86_64, Bun 1.4.4, dependencies from the frozen lockfile. Final checks ran after merging upstream `dev` into source commit `143d4483fd`.
 
 | Check | Result |
 | --- | --- |
@@ -52,9 +56,9 @@ Linux x86_64, Bun 1.4.4, dependencies from the frozen lockfile.
 | Regression negative control, without the fix | 2 fail, 2 pass |
 | Prettier on both changed files and `git diff --check` | Pass |
 | Full TUI suite, fixed branch | 1565 pass, 2 skip, 1 fail |
-| Full TUI suite, unchanged base | 1563 pass, 2 skip, 1 fail |
+| Earlier full TUI suite, unchanged original base (`726cf09639`) | 1563 pass, 2 skip, 1 fail |
 
-Both full-suite runs fail the same existing assertion in `test/component/go-upsell-art.test.tsx`: the art is `▀▀▀▀ ▀▀▀▀`, while the test expects `█▀▀▀ █▀▀█`. The fix does not change that component. An earlier command-limited full-suite attempt timed out and reported a shell-output failure; all 18 shell-output checks passed in three repeat runs on each branch.
+Both full-suite runs fail the same existing assertion in `test/component/go-upsell-art.test.tsx`: the art is `▀▀▀▀ ▀▀▀▀`, while the test expects `█▀▀▀ █▀▀█`. A focused run on current upstream `dev` (`589c62db60`), without the fix, also reproduces that assertion and both toast regression failures. The fix does not change the art component. An earlier command-limited full-suite attempt timed out and reported a shell-output failure; all 18 shell-output checks passed in three repeat runs on each branch.
 
 One parameterized regression runs at widths 44 and 100. It checks that an uncovered cursor stays visible, a covered cursor stays hidden across another frame, focus stays on the terminal, and dismissal restores the cursor. The test diff is 51 added lines, including imports and setup, and two replaced import lines; the fix is eight added lines.
 
