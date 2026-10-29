@@ -17,9 +17,9 @@ Check the toast's current bounds after painting and suppress only a visible, cov
 
 ### How did you verify your code works?
 
-- Toast tests: 80 passes across 10 repeat runs; five regression cases fail without the fix.
+- Toast tests: 50 passes across 10 repeat runs; all three new regression cases fail without the fix.
 - `bun run check`, TUI `typecheck:tsc`, and formatting checks pass.
-- Full TUI suite: 1569 pass, 2 skip, 1 fail. Unchanged `dev` has the same `go-upsell-art.test.tsx` failure (1563 pass, 2 skip, 1 fail).
+- Full TUI suite: 1566 pass, 2 skip, 1 fail. The unchanged base has the same `go-upsell-art.test.tsx` failure (1563 pass, 2 skip, 1 fail).
 - Real TUI: `/terminal`, mouse copy, expiry/restoration, resizing, and shell input in an isolated synthetic-data sandbox.
 - Manually confirmed locally; before/after screenshots below.
 
